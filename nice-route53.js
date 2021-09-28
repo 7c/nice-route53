@@ -482,6 +482,11 @@ Route53.prototype.upsertRecord = function(opts, pollEvery, callback) {
         change.ResourceRecordSet.Weight = opts.weight;
     }
 
+    // support geobased routing
+    if (opts.addon && typeof opts.addon==='object') {
+        change.ResourceRecordSet = {...change.ResourceRecordSet,...opts.addon}
+    }
+
     if (opts.values) {
         change.ResourceRecordSet.ResourceRecords = opts.values.map(function(r) {
           return {

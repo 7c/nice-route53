@@ -1,22 +1,36 @@
-this is forked repo has the capability to manage GeoLocation based routing. I have forked this repo, which was obviously not maintained anymore. Thanks to original coder. For now the support is added to upsertRecord function. You can add addons property to args:
+this is forked repo has the capability to manage GeoLocation based routing. I have forked this repo, which was obviously not maintained anymore. Thanks to original coder. For now the support is added to upsertRecord and delRecord functions. You can add addons property to args:
 
 ```
+## upsertRecord
 var args = {
     zoneId : targetZone.zoneId,
     name ,
-    // setIdentifier:'GeoLocation',
     type   : 'A',
     ttl    : ttl,
     values : ['1.2.3.4','5.6.7.8'],
     addon:{
         SetIdentifier:`${Date.now()}`, // an id which identifies this particular one
         GeoLocation:{
-            ContinentCode:'NA'
+            ContinentCode:'NA',
+            //CountryCode:'DE',
+            //SubdivisionCode:'FL'
         }
     }
 }
-```
 
+## delRecord
+var args = {
+    zoneId : targetZone.zoneId,
+    name   : recordName,
+    type   : 'A',
+    setIdentifier:identifier, // required
+    addon: {
+        SetIdentifier: identifier, // an id which identifies this particular one
+        GeoLocation: {
+            ContinentCode: continentKey.toUpperCase()
+        }
+    }
+}
 ```
        _                                _       ____ _____ 
  _ __ (_) ___ ___       _ __ ___  _   _| |_ ___| ___|___ / 

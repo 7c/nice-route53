@@ -4,3 +4,4 @@ test-*.js
 set-env-*.sh
 npm-debug.log
 *~
+release.sh

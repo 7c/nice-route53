@@ -541,7 +541,7 @@ Route53.prototype.delRecord = function(opts, pollEvery, callback) {
         records.forEach(function(record) {
             if ( opts.name === record.name && opts.type === record.type &&
                  ( ! opts.setIdentifier || opts.setIdentifier === record.setIdentifier ) ) {
-                args.ChangeBatch.Changes.push({
+                let data = {
                     Action : 'DELETE',
                     ResourceRecordSet: {
                         Name          : record.name,
@@ -549,13 +549,16 @@ Route53.prototype.delRecord = function(opts, pollEvery, callback) {
                         TTL           : record.ttl,
                         SetIdentifier : record.setIdentifier,
                         Weight        : record.weight,
+
                         ResourceRecords : record.values.map(function(r) {
                             return {
                                 Value: r
                             }
                         })
                     }
-                });
+                }
+                if (opts.addon && typeof opts.addon==='object') data.ResourceRecordSet={...data.ResourceRecordSet,...opts.addon}
+                args.ChangeBatch.Changes.push(data);
             }
         });
 
